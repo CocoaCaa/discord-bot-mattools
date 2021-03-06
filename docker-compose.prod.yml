@@ -8,4 +8,4 @@ services:
     volumes:
       - ./:/home/node/app
     restart: always
-    command: yarn dev
+    command: yarn start
