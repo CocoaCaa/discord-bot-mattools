@@ -1,7 +1,10 @@
 {
     "name": "discord-bot-mattools",
+    "main": "./dist/index.js",
     "scripts": {
-        "dev": "nodemon"
+        "dev": "nodemon",
+        "build": "tsc",
+        "start": "node ."
     },
     "devDependencies": {
         "@types/i18next-fs-backend": "^1.0.0",
