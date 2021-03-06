@@ -1,0 +1,13 @@
+version: "3.9"
+    
+services:
+  server:
+    image: node:14.16.0-alpine3.10
+    user: node
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - "8000:80"
+    restart: always
+    command: yarn dev
