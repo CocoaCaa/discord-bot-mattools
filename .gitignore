@@ -8,6 +8,6 @@
 #!/.yarn/cache
 #/.pnp.*
 
-node_modules
-config.yml
-.data
+/node_modules
+/config.yml
+/.data
