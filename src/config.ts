@@ -26,6 +26,7 @@ interface Config {
             leaveCommand: string;
         }
     >;
+    roleLanguages: Record<string, string>;
 }
 
 let config: Config;

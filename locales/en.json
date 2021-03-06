@@ -1,0 +1,6 @@
+{
+    "assignRoleChannel": {
+        "join": "<@{{ userId }}> (a.k.a {{ akaName }}) joined <@&{{ roleId }}>! If you want to leave, type `leave` in here",
+        "leave": "<@{{ userId }}> (a.k.a {{ akaName }}) leaved <@&{{ roleId }}>!"
+    }
+}

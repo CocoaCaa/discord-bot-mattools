@@ -5,6 +5,15 @@ __metadata:
   version: 4
   cacheKey: 7
 
+"@babel/runtime@npm:^7.12.0":
+  version: 7.13.9
+  resolution: "@babel/runtime@npm:7.13.9"
+  dependencies:
+    regenerator-runtime: ^0.13.4
+  checksum: e6f79d20e10c2921520c499f3cf295a9ee5c137e73f77f77eedde9f9073bc3541c1fc7fa6c97b0613f4140303ac00d08506e9f090068d219c58781d2b62c662d
+  languageName: node
+  linkType: hard
+
 "@discordjs/collection@npm:^0.1.6":
   version: 0.1.6
   resolution: "@discordjs/collection@npm:0.1.6"
@@ -36,6 +45,15 @@ __metadata:
   dependencies:
     defer-to-connect: ^1.0.1
   checksum: a46ec854231194dd1ab924a5ea0d8f0afa2b7133754a3def099cc5749e34802d8668a7d7ee3583327048354b9dc621113843d8546387e06ff57e6763cbb558d9
+  languageName: node
+  linkType: hard
+
+"@types/i18next-fs-backend@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@types/i18next-fs-backend@npm:1.0.0"
+  dependencies:
+    i18next: ^19.7.0
+  checksum: 5b72a3728ad2efa96e90bbb8fe5880b53c4d6a342ff121d55c5d5d80a60e152556dc75bccf09acc2cd414a7fe88d6690a179939d4cccef2d5e2c6fa43acbe768
   languageName: node
   linkType: hard
 
@@ -532,8 +550,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "discord-bot-mattools@workspace:."
   dependencies:
+    "@types/i18next-fs-backend": ^1.0.0
     "@types/js-yaml": ^4.0.0
     discord.js: ^12.5.1
+    i18next: ^19.9.1
+    i18next-fs-backend: ^1.1.0
     js-yaml: ^4.0.0
     nodemon: ^2.0.7
     ts-node: ^9.1.1
@@ -884,6 +905,22 @@ fsevents@~2.3.1:
     jsprim: ^1.2.2
     sshpk: ^1.7.0
   checksum: d28227eed37cb0dae0e76c46b2a5e611c678808433e5642238f17dba7f2c9c8f8d1646122d57ec1a110ecc7e8b9f5b7aa0462f1e2a5fa3b41f2fca5a69af7edf
+  languageName: node
+  linkType: hard
+
+"i18next-fs-backend@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "i18next-fs-backend@npm:1.1.0"
+  checksum: 48dbf337d3bbaa58c79d8e486e9969928b9236fed8a910275c36affc9d1052d2a84e46550b92752623a0481fe87a83a8b41752404594fb43bb3ef09fb232d029
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^19.7.0, i18next@npm:^19.9.1":
+  version: 19.9.1
+  resolution: "i18next@npm:19.9.1"
+  dependencies:
+    "@babel/runtime": ^7.12.0
+  checksum: 52d03d1031ac6f4da6b722d80a279371d8303188270b05231454c9ffc8c0d9571950aee0831b4433a6f212593feb748837917f5a0f55e9396ddefc4b1243c0ac
   languageName: node
   linkType: hard
 
@@ -1549,6 +1586,13 @@ fsevents@~2.3.1:
   dependencies:
     picomatch: ^2.2.1
   checksum: a64fe5606937d9655252230003362d95da05dbfd3baecedb4bb8c1bc0df497d051a192f9b75345c944e58a0b362c68349be602d6dbf05d03770e510b35a9f80f
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.13.4":
+  version: 0.13.7
+  resolution: "regenerator-runtime@npm:0.13.7"
+  checksum: 6ef567c662088b1b292214920cbd72443059298d477f72e1a37e0a113bafbfac9057cbfe35ae617284effc4b423493326a78561bbff7b04162c7949bdb9624e8
   languageName: node
   linkType: hard
 

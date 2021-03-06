@@ -84,6 +84,29 @@ export const ApplyRolesEmbeds = {
 
         await this.saveData();
     },
+    async getReactionSettings(
+        reaction: Discord.MessageReaction,
+    ): Promise<typeof Config.values.applyRolesEmbeds[string]['reactions'][string] | undefined> {
+        const data = await this.getData();
+        const channelData = data.channels[reaction.message.channel.id];
+        if (!channelData) {
+            return;
+        }
+        const foundEmbedWithData = Object.entries(channelData.embeds).find(
+            ([k, v]) => v.messageId === reaction.message.id,
+        );
+        if (!foundEmbedWithData) {
+            return;
+        }
+        const [embedName] = foundEmbedWithData;
+
+        const settings = Config.values.applyRolesEmbeds[embedName];
+        if (!settings) {
+            return;
+        }
+
+        return settings.reactions[reaction.emoji.name];
+    },
     async handleFromDiscordMessage(message: Discord.Message): Promise<boolean> {
         if (!message.content.startsWith('mt embed') || !message.member?.hasPermission('ADMINISTRATOR')) {
             return false;
@@ -104,5 +127,33 @@ export const ApplyRolesEmbeds = {
         }
 
         return false;
+    },
+    async handleFromMessageReactionAdd(
+        reaction: Discord.MessageReaction,
+        user: Discord.User | Discord.PartialUser,
+    ): Promise<void> {
+        const reactionSettings = await this.getReactionSettings(reaction);
+        if (!reactionSettings) {
+            return;
+        }
+        const member = await reaction.message.guild?.members.fetch(user.id);
+        if (!member) {
+            return;
+        }
+        await member.roles.add(reactionSettings.role);
+    },
+    async handleFromMessageReactionRemove(
+        reaction: Discord.MessageReaction,
+        user: Discord.User | Discord.PartialUser,
+    ): Promise<void> {
+        const reactionSettings = await this.getReactionSettings(reaction);
+        if (!reactionSettings) {
+            return;
+        }
+        const member = await reaction.message.guild?.members.fetch(user.id);
+        if (!member) {
+            return;
+        }
+        await member.roles.remove(reactionSettings.role);
     },
 };
