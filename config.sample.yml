@@ -1,5 +1,6 @@
 bot:
     token: '<BOT_TOKEN>'
+commandPrefix: '!'
 applyRolesEmbeds:
     registerLanguage:
         title: Hello!
@@ -19,12 +20,10 @@ applyRolesEmbeds:
                 role: '<ROLD_ID>'
             ☑️:
                 role: '<ROLD_ID>'
-            
 assignRoleChannels:
     '<CHANNEL_ID>':
         roleId: '<ROLD_ID>'
         leaveCommand: leave
-
 roleLanguages:
     '<ROLD_ID>': en
     '<ROLD_ID>': ja-JP

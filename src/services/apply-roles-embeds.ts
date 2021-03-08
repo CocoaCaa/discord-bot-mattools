@@ -108,7 +108,11 @@ export const ApplyRolesEmbeds = {
         return settings.reactions[reaction.emoji.name];
     },
     async handleFromDiscordMessage(message: Discord.Message): Promise<boolean> {
-        if (!message.content.startsWith('mt embed') || !message.member?.hasPermission('ADMINISTRATOR')) {
+        const { commandPrefix } = Config.values;
+        if (
+            !message.content.startsWith(`${commandPrefix}mt embed`) ||
+            !message.member?.hasPermission('ADMINISTRATOR')
+        ) {
             return false;
         }
 
