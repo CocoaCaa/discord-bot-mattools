@@ -38,20 +38,8 @@ export const ApplyRolesEmbeds = {
         await fs.promises.mkdir(path.dirname(dataFilePath), { recursive: true });
         await fs.promises.writeFile(dataFilePath, JSON.stringify(_data), 'utf-8');
     },
-    async remove(message: Discord.Message, embedName: string): Promise<void> {
-        const data = await this.getData();
-        const channelData = data.channels[message.channel.id];
-        if (!channelData) {
-            return;
-        }
-        const embedData = channelData.embeds[embedName];
-        if (!embedData) {
-            return;
-        }
-        const embedMessage = await message.channel.messages.fetch(embedData.messageId, false, true);
-        await embedMessage.delete();
-        delete channelData.embeds[embedName];
-        await this.saveData();
+    createMessageEmbedFromSettings(settings: typeof Config.values.applyRolesEmbeds[string]) {
+        return new Discord.MessageEmbed().setTitle(settings.title).setDescription(settings.description);
     },
     async add(message: Discord.Message, embedName: string): Promise<void> {
         const settings = Config.values.applyRolesEmbeds[embedName];
@@ -70,11 +58,11 @@ export const ApplyRolesEmbeds = {
             return;
         }
 
-        const embed = new Discord.MessageEmbed().setTitle(settings.title).setDescription(settings.description);
+        const embed = this.createMessageEmbedFromSettings(settings);
 
         const sentMessage = await message.channel.send(embed);
 
-        for (const [emoji] of Object.entries(settings.reactions)) {
+        for (const emoji of Object.keys(settings.reactions)) {
             await sentMessage.react(emoji);
         }
 
@@ -83,6 +71,46 @@ export const ApplyRolesEmbeds = {
         };
 
         await this.saveData();
+    },
+    async remove(message: Discord.Message, embedName: string): Promise<void> {
+        const data = await this.getData();
+        const channelData = data.channels[message.channel.id];
+        if (!channelData) {
+            return;
+        }
+        const embedData = channelData.embeds[embedName];
+        if (!embedData) {
+            return;
+        }
+        const embedMessage = await message.channel.messages.fetch(embedData.messageId, false, true);
+        await embedMessage.delete();
+        delete channelData.embeds[embedName];
+        await this.saveData();
+    },
+    async update(message: Discord.Message, embedName: string): Promise<void> {
+        const settings = Config.values.applyRolesEmbeds[embedName];
+        if (!settings) {
+            return;
+        }
+
+        const data = await this.getData();
+        const channelData = data.channels[message.channel.id];
+        if (!channelData) {
+            return;
+        }
+        const embedData = channelData.embeds[embedName];
+        if (!embedData) {
+            return;
+        }
+        const embedMessage = await message.channel.messages.fetch(embedData.messageId, false, true);
+        await embedMessage.edit(this.createMessageEmbedFromSettings(settings));
+        const reactionEmojis = Object.keys(settings.reactions);
+        for (const emoji of reactionEmojis) {
+            await embedMessage.react(emoji);
+        }
+        await Promise.all(
+            embedMessage.reactions.cache.filter((r) => !reactionEmojis.includes(r.emoji.name)).map((r) => r.remove()),
+        );
     },
     async getReactionSettings(
         reaction: Discord.MessageReaction,
@@ -108,26 +136,33 @@ export const ApplyRolesEmbeds = {
         return settings.reactions[reaction.emoji.name];
     },
     async handleFromDiscordMessage(message: Discord.Message): Promise<boolean> {
-        const { commandPrefix } = Config.values;
-        if (
-            !message.content.startsWith(`${commandPrefix}mt embed`) ||
-            !message.member?.hasPermission('ADMINISTRATOR')
-        ) {
-            return false;
-        }
+        try {
+            const { commandPrefix } = Config.values;
+            if (
+                !message.content.startsWith(`${commandPrefix}mt embed`) ||
+                !message.member?.hasPermission('ADMINISTRATOR')
+            ) {
+                return false;
+            }
 
-        const [, , action, embedName] = message.content.split(' ', 4);
-        if (!action || !embedName) {
-            return false;
-        }
+            const [, , action, embedName] = message.content.split(' ', 4);
+            if (!action || !embedName) {
+                return false;
+            }
 
-        switch (action) {
-            case 'add':
-                await this.add(message, embedName);
-                return true;
-            case 'remove':
-                await this.remove(message, embedName);
-                return true;
+            switch (action) {
+                case 'add':
+                    await this.add(message, embedName);
+                    return true;
+                case 'remove':
+                    await this.remove(message, embedName);
+                    return true;
+                case 'update':
+                    await this.update(message, embedName);
+                    return true;
+            }
+        } finally {
+            await message.delete();
         }
 
         return false;
