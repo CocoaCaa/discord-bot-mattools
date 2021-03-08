@@ -20,6 +20,10 @@ async function start(): Promise<void> {
         }
     });
     client.on('messageReactionAdd', async (reaction, user) => {
+        if (user.bot) {
+            return;
+        }
+
         try {
             if (reaction.partial) {
                 await reaction.fetch();
@@ -30,6 +34,10 @@ async function start(): Promise<void> {
         }
     });
     client.on('messageReactionRemove', async (reaction, user) => {
+        if (user.bot) {
+            return;
+        }
+
         try {
             if (reaction.partial) {
                 await reaction.fetch();
