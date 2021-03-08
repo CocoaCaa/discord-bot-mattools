@@ -136,33 +136,29 @@ export const ApplyRolesEmbeds = {
         return settings.reactions[reaction.emoji.name];
     },
     async handleFromDiscordMessage(message: Discord.Message): Promise<boolean> {
-        try {
-            const { commandPrefix } = Config.values;
-            if (
-                !message.content.startsWith(`${commandPrefix}mt embed`) ||
-                !message.member?.hasPermission('ADMINISTRATOR')
-            ) {
-                return false;
-            }
+        const { commandPrefix } = Config.values;
+        if (
+            !message.content.startsWith(`${commandPrefix}mt embed`) ||
+            !message.member?.hasPermission('ADMINISTRATOR')
+        ) {
+            return false;
+        }
 
-            const [, , action, embedName] = message.content.split(' ', 4);
-            if (!action || !embedName) {
-                return false;
-            }
+        const [, , action, embedName] = message.content.split(' ', 4);
+        if (!action || !embedName) {
+            return false;
+        }
 
-            switch (action) {
-                case 'add':
-                    await this.add(message, embedName);
-                    return true;
-                case 'remove':
-                    await this.remove(message, embedName);
-                    return true;
-                case 'update':
-                    await this.update(message, embedName);
-                    return true;
-            }
-        } finally {
-            await message.delete();
+        switch (action) {
+            case 'add':
+                await this.add(message, embedName);
+                return true;
+            case 'remove':
+                await this.remove(message, embedName);
+                return true;
+            case 'update':
+                await this.update(message, embedName);
+                return true;
         }
 
         return false;
