@@ -14,11 +14,11 @@ export const MessageRoutes = {
         const role = message.member!.roles.cache.find((role) => roleIdsLanguages.includes(role.id));
         const t = I18n.getFixedTByRoleId(role?.id);
 
-        if (await AssignRoleChannel.handleFromDiscordMessage(message, t)) {
+        if (await ApplyRolesEmbeds.handleFromDiscordMessage(message)) {
             return;
         }
 
-        if (await ApplyRolesEmbeds.handleFromDiscordMessage(message)) {
+        if (await AssignRoleChannel.handleFromDiscordMessage(message, t)) {
             return;
         }
     },
