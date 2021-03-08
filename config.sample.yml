@@ -1,13 +1,14 @@
 bot:
     token: '<BOT_TOKEN>'
+commandPrefix: '!'
 applyRolesEmbeds:
     registerLanguage:
-        title: Hello!
+        title: Welcome! Please select **only one** language.
         description: |
-            🇺🇸 Welcome! Please select **only one** language and click the ☑️.
-            🇯🇵 ようこそ！**1つだけ**の言語を選択し、☑️をクリックしてください。
-            🇨🇳 欢迎！请选择**仅一种**语言，然后单击☑️。
-            🇹🇼 歡迎！ 請選擇**僅一種**語言，然後單擊☑️。
+            🇺🇸 English
+            🇯🇵 日本語
+            🇨🇳 簡體中文
+            🇹🇼 繁體中文
         reactions:
             🇺🇸:
                 role: '<ROLD_ID>'
@@ -17,14 +18,10 @@ applyRolesEmbeds:
                 role: '<ROLD_ID>'
             🇹🇼:
                 role: '<ROLD_ID>'
-            ☑️:
-                role: '<ROLD_ID>'
-            
 assignRoleChannels:
     '<CHANNEL_ID>':
         roleId: '<ROLD_ID>'
         leaveCommand: leave
-
 roleLanguages:
     '<ROLD_ID>': en
     '<ROLD_ID>': ja-JP

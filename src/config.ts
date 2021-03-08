@@ -6,6 +6,7 @@ interface Config {
     bot: {
         token: string;
     };
+    commandPrefix: string;
     applyRolesEmbeds: Record<
         string,
         {
